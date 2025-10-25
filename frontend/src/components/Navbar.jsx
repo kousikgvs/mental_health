@@ -1,22 +1,34 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-teal-600 p-4 shadow-lg">
+    <nav className="bg-white/30 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-2xl font-bold">Mental Health</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-purple-600"
+        >
+          Mental Health
+        </motion.div>
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800">
             {isOpen ? "✕" : "☰"}
           </button>
         </div>
-        <ul className={`md:flex space-x-6 text-white ${isOpen ? "block" : "hidden"} md:block`}>
-          <li><a href="#home" className="hover:text-teal-200">Home</a></li>
-          <li><a href="#about" className="hover:text-teal-200">About</a></li>
-          <li><a href="#services" className="hover:text-teal-200">Services</a></li>
-          <li><a href="#contact" className="hover:text-teal-200">Contact</a></li>
+        <ul className={`md:flex space-x-6 text-gray-800 ${isOpen ? "block" : "hidden"} md:block`}>
+          {["Home", "About", "Services", "Contact"].map((item, index) => (
+            <motion.li
+              key={index}
+              whileHover={{ scale: 1.1, color: "#0d9488" }}
+              className="hover:text-teal-600 transition-colors"
+            >
+              <a href={`#${item.toLowerCase()}`}>{item}</a>
+            </motion.li>
+          ))}
         </ul>
       </div>
     </nav>
