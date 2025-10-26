@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-langchain
 langchain-core
 langchain-community
 langchain-text-splitters
@@ -12,3 +11,6 @@ sentence-transformers
 pydantic
 python-dotenv
 requests
+langchain-groq
+langchain
+chromadb

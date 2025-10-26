@@ -1,3 +1,4 @@
+import requests
 from state import State
 from graph import multi_agent_graph
 
@@ -6,7 +7,7 @@ def chat(user_input: str) -> State:
     result = multi_agent_graph.invoke(initial_state)
     return result
 
-if __name__ == "__main__":
+def test_api():
     test_inputs = [
         "What are some remedies for anxiety?",
         "I'm feeling really stressed and overwhelmed with exams.",
@@ -17,5 +18,16 @@ if __name__ == "__main__":
     ]
 
     for input_text in test_inputs:
-        response_state = chat(input_text)
-        print(response_state)
+        try:
+            response = requests.post(
+                "http://localhost:8000/chat",
+                json={"user_input": input_text}
+            )
+            response.raise_for_status()
+            print(f"Input: {input_text}")
+            print(f"Response: {response.json()}\n")
+        except requests.exceptions.RequestException as e:
+            print(f"Error testing input '{input_text}': {e}")
+
+if __name__ == "__main__":
+    test_api()

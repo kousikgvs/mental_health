@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,21 +15,32 @@ export default function Navbar() {
         >
           Mental Health
         </motion.div>
+
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800">
             {isOpen ? "✕" : "☰"}
           </button>
         </div>
-        <ul className={`md:flex space-x-6 text-gray-800 ${isOpen ? "block" : "hidden"} md:block`}>
-          {["Home", "About", "Services", "Contact"].map((item, index) => (
-            <motion.li
-              key={index}
-              whileHover={{ scale: 1.1, color: "#0d9488" }}
-              className="hover:text-teal-600 transition-colors"
-            >
-              <a href={`#${item.toLowerCase()}`}>{item}</a>
-            </motion.li>
-          ))}
+
+        <ul
+          className={`md:flex space-x-6 text-gray-800 ${
+            isOpen ? "block" : "hidden"
+          } md:block`}
+        >
+          <motion.li
+            whileHover={{ scale: 1.1, color: "#0d9488" }}
+            className="hover:text-teal-600 transition-colors"
+          >
+            <Link to="/">Home</Link>
+            Home
+          </motion.li>
+
+          <motion.li
+            whileHover={{ scale: 1.1, color: "#0d9488" }}
+            className="hover:text-teal-600 transition-colors"
+          >
+            <Link to="/healthcheckup">Health Checkup</Link>
+          </motion.li>
         </ul>
       </div>
     </nav>
