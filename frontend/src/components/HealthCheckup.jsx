@@ -128,7 +128,7 @@ export default function HealthCheckup() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white/80 backdrop-blur-md rounded-xl shadow-lg my-8">
+    <div className="max-w-3xl mx-auto p-6 bg-white/80 backdrop-blur-md rounded-xl shadow-lg my-9">
       <h2 className="text-2xl font-semibold text-teal-700 mb-4">Mental Health Checkup</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

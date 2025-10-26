@@ -16,7 +16,7 @@ export default function Navbar() {
     localStorage.removeItem("user_email");
     localStorage.removeItem("access_token");
     setUserEmail(null);
-    navigate("/login"); 
+    navigate("/login");
   };
 
   return (
@@ -40,8 +40,8 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <ul
-          className={`md:flex space-x-6 text-gray-800 ${
-            isOpen ? "block" : "hidden"
+          className={`md:flex items-center space-x-6 text-gray-800 ${
+            isOpen ? "block mt-4" : "hidden"
           } md:block`}
         >
           <motion.li
@@ -60,11 +60,8 @@ export default function Navbar() {
 
           {/* Conditionally show Login or Logout + Email */}
           {userEmail ? (
-            <>
-              <motion.li className="flex items-center space-x-2">
-                <span className="text-gray-800 font-medium">{userEmail}</span>
-              </motion.li>
-
+            <div className="flex items-center space-x-4">
+              <motion.li className="text-gray-800 font-medium">{userEmail}</motion.li>
               <motion.li>
                 <button
                   onClick={handleLogout}
@@ -73,7 +70,7 @@ export default function Navbar() {
                   Logout
                 </button>
               </motion.li>
-            </>
+            </div>
           ) : (
             <motion.li
               whileHover={{ scale: 1.1 }}
