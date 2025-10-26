@@ -27,7 +27,7 @@ export default function Signup() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password , name, groups}),
+        body: JSON.stringify({ email, password , name, groups , appointments: []}),
       });
 
       if (!response.ok) {
