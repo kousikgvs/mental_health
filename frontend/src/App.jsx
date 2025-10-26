@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import HomeScreen from "./HomeScreen";
 import HealthCheckup from "./components/HealthCheckup";
 import Navbar from "./components/Navbar";
-
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -10,6 +11,8 @@ function AnimatedRoutes() {
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/healthcheckup" element={<HealthCheckup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 }

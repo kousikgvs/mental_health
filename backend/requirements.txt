@@ -15,4 +15,9 @@ langchain_groq
 langchain
 chromadb
 numpy
-fastapi
+motor
+python-jose
+passlib
+sklearn
+scipy
+motor

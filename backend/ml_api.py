@@ -31,8 +31,8 @@ svm       = load_pickle("svm_model.pkl")
 rf        = load_pickle("random_forest.pkl")
 
 # -------------------------------------------------
-app = FastAPI(title="Mental Health Prediction API")
-app.add_middleware(
+app_5 = FastAPI(title="Mental Health Prediction API")
+app_5.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
@@ -101,7 +101,7 @@ def prepare_features(p: SurveyInput):
     return scaler.transform(row)
 
 # -------------------------------------------------
-@app.post("/predict")
+@app_5.post("/predict")
 def predict(p: SurveyInput):
     try:
         X = prepare_features(p)
