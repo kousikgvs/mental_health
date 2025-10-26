@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa"; 
 
-export default function Navbar() {
+export default function Navbar({ appointments = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
-  const navigate = useNavigate();
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     const email = localStorage.getItem("user_email");
@@ -16,7 +17,6 @@ export default function Navbar() {
     localStorage.removeItem("user_email");
     localStorage.removeItem("access_token");
     setUserEmail(null);
-    navigate("/login");
   };
 
   return (
@@ -58,10 +58,40 @@ export default function Navbar() {
             <Link to="/healthcheckup">Health Checkup</Link>
           </motion.li>
 
-          {/* Conditionally show Login or Logout + Email */}
+          {/* Conditionally show Login or Profile + Logout */}
           {userEmail ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 relative">
+              {/* Profile Icon */}
+              <motion.div
+                className="relative cursor-pointer"
+                onClick={() => setProfileOpen(!profileOpen)}
+              >
+                <FaUserCircle size={28} className="text-gray-700 hover:text-teal-600 transition" />
+
+                {/* Dropdown */}
+                {profileOpen && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg p-4 z-50">
+                    <p className="font-semibold mb-2">Appointments:</p>
+                    {appointments.length > 0 ? (
+                      <ul className="text-gray-700 space-y-2 max-h-48 overflow-y-auto">
+                        {appointments.map((appt, idx) => (
+                          <li key={idx} className="border-b pb-1">
+                            <p className="font-medium">{appt.doctor_name}</p>
+                            <p className="text-sm">{new Date(appt.appointment_date).toLocaleString()}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-500 text-sm">No appointments booked</p>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+
+              {/* Email */}
               <motion.li className="text-gray-800 font-medium">{userEmail}</motion.li>
+
+              {/* Logout */}
               <motion.li>
                 <button
                   onClick={handleLogout}

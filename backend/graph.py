@@ -9,10 +9,8 @@ from agents.peer_connector_agent import peer_connector_agent
 def route_next(state: State):
     return state.route
 
-# Initialize the graph
 graph = StateGraph(State)
 
-# Add nodes for each agent
 graph.add_node("router_agent", router_agent)
 graph.add_node("rag_knowledge_agent", rag_knowledge_agent)
 graph.add_node("risk_assessment_agent", risk_assessment_agent)
@@ -35,8 +33,6 @@ graph.add_edge("risk_assessment_agent", END)
 graph.add_edge("support_chat_agent", END)
 graph.add_edge("peer_connector_agent", END)
 
-# Set entry point
 graph.set_entry_point("router_agent")
 
-# Compile the graph
 multi_agent_graph = graph.compile()

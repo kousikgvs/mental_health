@@ -7,11 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from scipy.special import expit  # sigmoid
 
-# -------------------------------------------------
-# CONFIG – point this at your .pkl folder
+
 SAVE_DIR = r"C:\Users\kousi\Documents\hackathon\ml_pkl"
 
-# -------------------------------------------------
 def load_pickle(name: str):
     path = os.path.join(SAVE_DIR, name)
     try:
@@ -30,7 +28,7 @@ log_reg   = load_pickle("logistic_regression.pkl")
 svm       = load_pickle("svm_model.pkl")
 rf        = load_pickle("random_forest.pkl")
 
-# -------------------------------------------------
+
 app_5 = FastAPI(title="Mental Health Prediction API")
 app_5.add_middleware(
     CORSMiddleware,
@@ -39,42 +37,36 @@ app_5.add_middleware(
     allow_headers=["*"],
 )
 
-# -------------------------------------------------
 class SurveyInput(BaseModel):
-    gender: str          # "Male" / "Female"
+    gender: str        
     age: int
     course: str
-    year_of_study: str   # e.g. "Year 1"
+    year_of_study: str  
     cgpa: str
-    marital_status: str  # "Yes"/"No"
-    depression: str      # "Yes"/"No"
-    anxiety: str         # "Yes"/"No"
-    panic_attack: str    # "Yes"/"No"
+    marital_status: str  
+    depression: str     
+    anxiety: str         
+    panic_attack: str   
 
-# -------------------------------------------------
 def _normalize(value: str, encoder) -> int:
     """
     Normalise a categorical value for a given LabelEncoder.
     Returns the integer code.
     """
     v = value.strip()
-    # 1. exact match after upper-casing
     if v.upper() in (c.upper() for c in encoder.classes_):
         return encoder.transform([v])[0]
 
-    # 2. case-insensitive partial match (first hit)
     for cls in encoder.classes_:
         if v.lower() in cls.lower():
             return encoder.transform([cls])[0]
 
-    # 3. nothing found → helpful 400
     known = sorted(set(encoder.classes_), key=str.lower)
     raise HTTPException(
         status_code=400,
         detail=f"Unknown value '{value}'. Known: {known}"
     )
 
-# -------------------------------------------------
 def get_probability(model, X):
     """Safe probability extraction (predict_proba → decision_function → sigmoid)."""
     if hasattr(model, "predict_proba"):
@@ -83,7 +75,6 @@ def get_probability(model, X):
         return float(expit(model.decision_function(X)[0]))
     raise ValueError(f"Model {type(model).__name__} has no probability method")
 
-# -------------------------------------------------
 def prepare_features(p: SurveyInput):
     gender = 1 if p.gender == "Male" else 0
     marital = 1 if p.marital_status == "Yes" else 0
@@ -100,7 +91,6 @@ def prepare_features(p: SurveyInput):
 
     return scaler.transform(row)
 
-# -------------------------------------------------
 @app_5.post("/predict")
 def predict(p: SurveyInput):
     try:
