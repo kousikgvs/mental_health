@@ -11,16 +11,14 @@ export default function Chatbot() {
     const userMessage = e.target.message.value.trim();
     if (!userMessage) return;
 
-    // Add user message
     setMessages((prev) => [...prev, { text: userMessage, sender: "user" }]);
     e.target.reset();
 
-    // Show loading state
     setLoading(true);
 
+    
     try {
-      // Send request to FastAPI backend
-      const response = await fetch("http://127.0.0.1:8080/chat", {
+      const response = await fetch("http://127.0.0.1:8082/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_input: userMessage }),
@@ -28,7 +26,6 @@ export default function Chatbot() {
 
       const data = await response.json();
 
-      // Add bot response
       if (response.ok && data.output) {
         setMessages((prev) => [...prev, { text: data.output, sender: "bot" }]);
       } else {
@@ -54,7 +51,6 @@ export default function Chatbot() {
 
   return (
     <div className="fixed bottom-5 right-5 z-50">
-      {/* Floating button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-gradient-to-r from-teal-500 to-purple-600 text-white p-4 rounded-full shadow-lg"
@@ -65,7 +61,6 @@ export default function Chatbot() {
         💬
       </motion.button>
 
-      {/* Chat window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -74,7 +69,6 @@ export default function Chatbot() {
             exit={{ opacity: 0, y: 50 }}
             className="bg-white/80 backdrop-blur-md rounded-xl shadow-2xl w-80 h-96 flex flex-col mt-2"
           >
-            {/* Header */}
             <div className="bg-gradient-to-r from-teal-500 to-purple-600 text-white p-3 rounded-t-xl flex justify-between">
               <span className="font-semibold">Support Bot</span>
               <button
@@ -85,7 +79,6 @@ export default function Chatbot() {
               </button>
             </div>
 
-            {/* Messages area */}
             <div className="flex-1 p-3 overflow-y-auto">
               {messages.map((msg, index) => (
                 <motion.div
@@ -108,7 +101,6 @@ export default function Chatbot() {
                 </motion.div>
               ))}
 
-              {/* Loading indicator */}
               {loading && (
                 <div className="text-gray-500 text-sm italic text-left mt-2">
                   Typing...
@@ -116,7 +108,6 @@ export default function Chatbot() {
               )}
             </div>
 
-            {/* Input form */}
             <form onSubmit={handleSendMessage} className="p-3 border-t">
               <input
                 type="text"

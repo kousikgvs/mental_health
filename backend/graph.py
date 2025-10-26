@@ -19,7 +19,6 @@ graph.add_node("risk_assessment_agent", risk_assessment_agent)
 graph.add_node("support_chat_agent", support_chat_agent)
 graph.add_node("peer_connector_agent", peer_connector_agent)
 
-# Add conditional edges from router_agent
 graph.add_conditional_edges(
     "router_agent",
     route_next,
@@ -31,7 +30,6 @@ graph.add_conditional_edges(
     }
 )
 
-# Add end edges for each agent
 graph.add_edge("rag_knowledge_agent", END)
 graph.add_edge("risk_assessment_agent", END)
 graph.add_edge("support_chat_agent", END)

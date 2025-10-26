@@ -5,7 +5,7 @@ from graph import multi_agent_graph
 from typing import Optional
 
 # Initialize FastAPI app
-app = FastAPI(title="Mental Health Support API")
+app_1 = FastAPI(title="Mental Health Support API")
 
 # Define request and response models
 class ChatRequest(BaseModel):
@@ -23,7 +23,7 @@ def chat(user_input: str) -> State:
     return result
 
 # API endpoint
-@app.post("/chat", response_model=ChatResponse)
+@app_1.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     try:
         response_state = chat(request.user_input)
@@ -36,10 +36,10 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
 
 # Health check endpoint
-@app.get("/health")
+@app_1.get("/health")
 async def health_check():
     return {"status": "healthy"}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app_1, host="0.0.0.0", port=8000)

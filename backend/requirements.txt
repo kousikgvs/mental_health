@@ -7,10 +7,12 @@ langchain-huggingface
 langchain-unstructured
 unstructured
 faiss-cpu
-sentence-transformers
 pydantic
 python-dotenv
 requests
 langchain-groq
+langchain_groq
 langchain
 chromadb
+numpy
+fastapi
